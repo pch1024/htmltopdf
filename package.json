@@ -1,0 +1,22 @@
+{
+  "name": "newreport",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "babel-preset-env": "^1.7.0"
+  },
+  "devDependencies": {
+    "less": "^3.8.0"
+  },
+  "scripts": {
+    "fsr": "start /b sass -w dev_fsr:out_fsr --style expanded & xcopy /E/I/Y lib out_fsr & xcopy /E/I/Y assets out_fsr & babel \"dev_fsr\" --minified -w --out-dir \"out_fsr\" ",
+    "one": "start /b sass -w dev_one:out_one --style expanded & xcopy /E/I/Y lib out_one & babel \"dev_one\" --minified -w --out-dir \"out_one\" ",
+    "all": "start /b sass -w dev_all:out_all --style expanded & xcopy /E/I/Y lib out_all & babel \"dev_all\" --minified -w --out-dir \"out_all\" "
+  },
+  "author": "",
+  "license": "ISC"
+}

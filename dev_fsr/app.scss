@@ -1,0 +1,261 @@
+$green:#64A531;
+.page {
+    height: 1080px;
+    width: 768px;
+    color: #000000;
+    background-color: #E3F7FF;
+    margin: 0 auto 10px;
+    overflow: hidden;
+    background-image: url('img/bg.png');
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    .topbar {
+        height: 10px;
+        width: 100%;
+        span {
+            line-height: 2rem;
+            float: left;
+            overflow: hidden;
+            display: block;
+            width: 0;
+            height: 100%;
+            border-left: 100px solid #BEE2C8;
+            border-right: (768px/5 - 100px) solid #CCE5C5;
+        }
+    }
+    &:last-child {
+        margin: 0 auto;
+    }
+}
+
+.content {
+    width: 100%;
+    height: auto;
+    padding: 36px;
+    .top {
+        position: relative;
+        width: 200px;
+        text-align: center;
+        line-height: 30px; // border: 2px solid $green;
+        background-color: #D8EFE8;
+        color: black;
+        &::after {
+            content: '';
+            position: absolute;
+            height: 152%;
+            width: 3px;
+            left: 0px;
+            top: -36%;
+            border-radius: 50% 8%;
+            background-color: $green;
+        }
+        &::before {
+            content: '';
+            position: absolute;
+            height: 152%;
+            width: 3px;
+            right: -3px;
+            bottom: -36%;
+            border-radius: 50% 8%;
+            background-color: $green;
+        }
+        .up {
+            content: '';
+            position: absolute;
+            width: 117%;
+            height: 3px;
+            top: -3px;
+            left: -8%;
+            border-radius: 50% 25%;
+            background-color: $green;
+        }
+        .down {
+            content: '';
+            position: absolute;
+            width: 128%;
+            height: 3px;
+            bottom: -3px;
+            left: -11%;
+            border-radius: 50% 25%;
+            background-color: $green;
+        }
+        p {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+    .box {
+        width: 100%;
+        height: auto;
+        border: 1px solid $green;
+        padding: 1rem;
+        background-color: rgba(241, 251, 255, 0.5);
+        overflow: hidden;
+        .container {
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+        }
+    }
+}
+
+#info.content {
+    .all {
+        text-decoration: underline;
+        font-style: italic;
+        margin-bottom: 2rem;
+        text-indent: 1rem;
+    }
+    .half {
+        text-indent: 2rem;
+        width: 50%;
+        line-height: 2rem;
+        float: left;
+    }
+}
+
+#intelligence.content {
+    height: 93%;
+    >.box {
+        padding: 2rem;
+        height: 100%;
+        >p {
+            text-align: center;
+            font-size: 2rem;
+            color: $green;
+            line-height: 5rem;
+        }
+    }
+    .table {
+        width: 100%;
+        border: 1px solid $green;
+        overflow: hidden;
+        >span {
+            display: block;
+            float: left;
+            height: 2rem;
+            width: (100% / 6);
+            border: 1px solid $green;
+            text-align: center;
+            color: black;
+        }
+    }
+    .comment {
+        text-align: justify;
+    }
+}
+
+$house:#6CAA3D;
+$tree:#246CCD;
+$humen:#FC9C28;
+$other:#ED676E;
+.color-0 {
+    color: $house
+}
+
+.color-1 {
+    color: $tree
+}
+
+.color-2 {
+    color: $humen
+}
+
+.color-3 {
+    color: $other
+}
+
+#QA.content {
+    height: 93%;
+    >.box {
+        height: 100%;
+        padding: 2rem;
+    }
+    .type {
+        margin-top: 1rem;
+        font-size: 1.6rem;
+    }
+    .q {
+        line-height: 2rem;
+        text-indent: 2rem;
+        font-size: 1rem;
+        color: black;
+    }
+    .a {
+        line-height: 2rem;
+        text-indent: 2rem;
+        font-size: 1rem;
+        color: black;
+        >span {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+#summary.content {
+    height: 93%;
+    >.box {
+        height: 100%;
+        padding: 2rem;
+        >p {
+            text-indent: 2rem;
+        }
+    }
+}
+
+#analysis.content {
+    height: 93%;
+    >.box {
+        height: 100%;
+        padding: 2rem;
+    }
+    .type {
+        margin-top: 1rem;
+        font-size: 1.6rem;
+    }
+    .brief {
+        text-indent: 2rem;
+        margin-left: 2rem;
+    }
+    .q {
+        line-height: 2rem;
+        text-indent: 2rem;
+        font-size: 1.2rem;
+    }
+    .a {
+        line-height: 2rem;
+        text-indent: 2rem;
+        font-size: 1rem;
+        color: black;
+    }
+}
+
+.header {
+    width: 100%;
+    height: 150px;
+    background-color: #D0EBE0;
+    h2 {
+        line-height: 140px;
+        text-align: center;
+        font-size: 4rem;
+        font-weight: bold;
+        text-shadow: // 
+        -4px 0 1px $green, -3px 0 1px $green, -2px 0 1px $green, -1px 0 1px $green, // top
+        4px 0 1px $green, 3px 0 1px $green, 2px 0 1px $green, 1px 0 1px $green, // bottom
+        0 -4px 1px $green, 0 -3px 1px $green, 0 -2px 1px $green, 0 -1px 1px $green, // left
+        0 4px 1px $green, 0 3px 1px $green, 0 2px 1px $green, 0 1px 1px $green; // right
+        color: white;
+    }
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+}
+
+.page2 .box {
+    margin-top: 2rem
+}
