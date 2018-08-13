@@ -93,7 +93,7 @@ var json = {
             "ListAnswer": ["大干"]
         }]
     }, {
-        "TypeName": "人",
+        "TypeName": "形势分析",
         "ListQuestion": [{
             "Question": "绘画顺序（正常顺序为，头面部—躯干—四肢、五官等细节）",
             "ListAnswer": [
@@ -128,6 +128,42 @@ var json = {
         }, {
             "Question": "这是谁的房子 ?",
             "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
+        }, {
+            "Question": "这是谁的房子 ?",
+            "Answer": "我的"
         }]
     }, {
         "TypeName": "树",
@@ -142,5 +178,49 @@ var json = {
             "Answer": "我的"
         }]
     }],
-    "Remark": "用户作画时候还算认真，态度积极，主动。从整体画面看来，画面充满，说明作者性格外向活动能力强。画面上半部分元素多于下半部分，说明作者是偏理想型，喜欢浪漫爱幻想。"
+    "Remark": "<p>用户作画时候还算认真，态度积极，主动。</p><p>从整体画面看来，画面充满，说明作者性格外向活动能力强。画面上半部分元素多于下半部分，说明作者是偏理想型，喜欢浪漫爱幻想。</p>"
+};
+
+function httpGet(url) {
+    var xmlhttp = null;
+    if (window.XMLHttpRequest) { // code for all new browsers
+        xmlhttp = new XMLHttpRequest();
+    } else if (window.ActiveXObject) { // code for IE5 and IE6
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    if (xmlhttp != null) {
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4) { // 4 = "loaded"
+                if (xmlhttp.status == 200) { // 200 = OK
+                    console.log(xmlhttp.responseText)
+                    callData(xmlhttp.responseText)
+                } else {
+                    alert("Problem retrieving XML data");
+                }
+            }
+        };
+
+        // 前端设置是否带cookie
+        // xmlhttp.withCredentials = true;
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send(null);
+    } else {
+        alert("Your browser does not support XMLHTTP.");
+    }
+}
+
+/**
+ * 后端数据对接修改部分
+ */
+httpGet("https://api.github.com");
+
+function callData(data) {
+    console.log(data)
+    // json = ''
+    if (json == '') {
+        document.getElementById('app').innerHTML = `<center style="margin-top:400px;color:white">没有数据！</center>`;
+        return false;
+    }
+    htmlRender(filterData(json))
+
 }

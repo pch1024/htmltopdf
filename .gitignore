@@ -10,5 +10,6 @@ yarn-error.log
 *.ntvs*
 *.njsproj
 *.sln
+
 .sass-cache
-/out_*
+out_*

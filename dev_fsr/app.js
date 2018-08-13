@@ -9,7 +9,6 @@ var page = `
       </div>
 
       {{@ $data.join('')}}
-
     </div>
 `
 var page2 = `
@@ -22,10 +21,10 @@ var page2 = `
         <span></span>
       </div>
 
-    <div id="analysis" class="content">
+    <div id="{{$data[1]}}" class="content">
         <div class="box">
             <div class='container'>
-                {{@ $data.join('')}}
+                {{@ $data[0].join('')}}
             </div>
         </div>
     </div>
@@ -54,9 +53,7 @@ var info = `
 `
 var header = `
 <div id="header" class="header">
-    {{if title}}
-        <h2>{{title}}</h2>
-    {{/if}}
+    <img src="Images/HTPExamReport/title.png" alt="房树人画作">
 </div>
 `
 var img = `
@@ -84,24 +81,34 @@ var intelligence = `
     </div>
     <div class="box">
         <p>{{section1.name}}</p>
-        <div class="table">
-            {{each section1.row1}}
-            <span>{{$value}}</span>
-            {{/each}}
-            {{each section1.row2}}
-            <span>{{$value}}</span>
-            {{/each}}
-            {{each section1.row3}}
-            <span>{{$value}}</span>
-            {{/each}}
-            {{each section1.row4}}
-            <span>{{$value}}</span>
-            {{/each}}
-        </div>
-        <p>{{section2.name}}</p>
+        <table class="table">
+            <tr>
+                {{each section1.row1}}
+                <th style="color:#44870F">{{$value}}</th>
+                {{/each}}
+            </tr>
+            <tr style="border-style: dashed">
+                {{each section1.row2}}
+                <td>{{$value}}</td>
+                {{/each}}
+            </tr>
+            <tr style="border-style: dashed">
+                {{each section1.row3}}
+                <td>{{$value}}</td>
+                {{/each}}
+            </tr>
+            <tr style="border-style: dashed">
+                {{each section1.row4}}
+                <td>{{$value}}</td>
+                {{/each}}
+            </tr>
+        </table>
+        <div class="tip">表1 {{section1.name}}</div> 
+        <!-- <p>{{section2.name}}</p> -->
         <div class="">
-            <img src="{{section2.img}}" alt="{{section2.name}}">
+            <img style="mix-blend-mode: multiply;" src="{{section2.img}}" alt="{{section2.name}}">
         </div>
+        <div class="tip">图1 {{section2.name}}</div> 
         <p>{{section3.name}}</p>
         <div class="comment"> {{section3.comment}} </div>
     </div>
@@ -118,16 +125,18 @@ var QA = `
       <p>{{title}}</p>
     </div>
     <div class="box">
+        <div class='container'>
         {{each questions question index}}
             <p class="type color-{{index}}">{{question.name}}</p>
-            {{each question.list qa}}
-                <p class="q">{{qa.q}}</p>
+            {{each question.list qa key}}
+                <p class="q">{{key+1}}. {{qa.q}}</p>
                 <p class="a">
                     <span class="color-{{index}}">答： </span>
                     {{qa.a}}
                 </p>
             {{/each}}
         {{/each}}
+        </div>
     </div>
 </div>
 `
@@ -142,7 +151,9 @@ var summary = `
       <p>{{title}}</p>
     </div>
     <div class="box">
-        <p>{{remark}}</p>
+        <div class='container'>
+        {{@ remark}}
+        </div>
     </div>
 </div>
 `
@@ -176,6 +187,7 @@ var analysis = `
 </div>
 `
 
+// htmlRender(filterData(json))
 function domToString(node) {
     var tmpNode = document.createElement("div");
     tmpNode.appendChild(node.cloneNode(true));
@@ -183,8 +195,6 @@ function domToString(node) {
     tmpNode = node = null; // prevent memory leaks in IE  
     return str;
 }
-
-htmlRender(filterData(json))
 
 function filterData(data) {
     var obj = {}
@@ -203,13 +213,16 @@ function filterData(data) {
         "中等偏上": "7-01",
         "优秀": "8-01",
     }
+
     obj.header = {
         title: "房树人测评报告"
     }
+
     obj.img = {
         title: "房树人画作",
         img: data.PicturePath
     }
+
     obj.info = {
         id: data.UserInfo.StudentID,
         title: "测试者个人信息",
@@ -219,67 +232,78 @@ function filterData(data) {
         testday: data.UserInfo.Birthday,
         birthday: data.UserInfo.TestDate
     }
-    obj.analysis = {
-        title: "人格特质分析",
-        types: []
-    }
-    data.PersonalityAnalysis.forEach(function (type, index) {
-        obj.analysis.types.push({
-            name: type.TypeName,
-            brief: briefs[type.TypeName],
-            list: []
-        })
 
-        type.ListQuestion.forEach(function (qa, key) {
-            obj.analysis.types[index].list.push({
-                q: qa.Question,
-                a: qa.ListAnswer
+    if (data.PersonalityAnalysis && data.PersonalityAnalysis.length !== 0) {
+        obj.analysis = {
+            title: "人格特质分析",
+            types: []
+        }
+        data.PersonalityAnalysis.forEach(function (type, index) {
+            obj.analysis.types.push({
+                name: type.TypeName,
+                brief: briefs[type.TypeName],
+                list: []
+            })
+
+            type.ListQuestion.forEach(function (qa, key) {
+                obj.analysis.types[index].list.push({
+                    q: qa.Question,
+                    a: qa.ListAnswer
+                })
             })
         })
-    })
-
-
-    obj.summary = {
-        title: "咨询师总结",
-        remark: data.Remark
-    }
-    obj.intelligence = {
-        title: "智力水平分析",
-        section1: {
-            name: '治理测评结果',
-            row1: ['项目得分', '粗分G率', '纯修正分', 'G率智商', '纯修正分智商', '智商等级'],
-            row2: [data.LevelAnalysis.IQScoreA, '', '', '', '', ''],
-            row3: [data.LevelAnalysis.IQScoreD, data.LevelAnalysis.IQScoreG, data.LevelAnalysis.IQScoreFix, data.LevelAnalysis
-                .GIQ, data.LevelAnalysis.FixIQ, data.LevelAnalysis.IQLevel
-            ],
-            row4: [data.LevelAnalysis.IQScoreS, '', '', '', '', '']
-        },
-        section2: {
-            name: '智力水平总览图',
-            img: 'img/' + types[data.LevelAnalysis.IQLevel] + ".jpg"
-        },
-        section3: {
-            name: '评语',
-            comment: data.LevelAnalysis.IQComments
-        },
-    }
-    obj.QA = {
-        title: "房树人问答",
-        questions: []
     }
 
-    data.HTPQuestion.forEach(function (type, index) {
-        obj.QA.questions.push({
-            name: type.TypeName + ": 参考问题",
-            list: []
-        })
-        type.ListQuestion.forEach(function (item) {
-            obj.QA.questions[index].list.push({
-                q: item.Question,
-                a: item.Answer
+
+    if (data.Remark && data.Remark != '') {
+        obj.summary = {
+            title: "咨询师总结",
+            remark: data.Remark
+        }
+    }
+    if (data.LevelAnalysis && data.LevelAnalysis != '') {
+        obj.intelligence = {
+            title: "智力水平分析",
+            section1: {
+                name: '智力测评结果',
+                row1: ['项目得分', '粗分G率', '纯修正分', 'G率智商', '纯修正分智商', '智商等级'],
+                row2: ["A: " + data.LevelAnalysis.IQScoreA, '', '', '', '', ''],
+                row3: ["D: " + data.LevelAnalysis.IQScoreD, data.LevelAnalysis.IQScoreG, data.LevelAnalysis.IQScoreFix, data.LevelAnalysis
+                    .GIQ, data.LevelAnalysis.FixIQ, data.LevelAnalysis.IQLevel
+                ],
+                row4: ["S: " + data.LevelAnalysis.IQScoreS, '', '', '', '', '']
+            },
+            section2: {
+                name: '智力水平总览图',
+                img: 'Images/HTPExamReport/' + types[data.LevelAnalysis.IQLevel] + ".jpg"
+            },
+            section3: {
+                name: '评语',
+                comment: data.LevelAnalysis.IQComments
+            },
+        }
+    }
+
+    if (data.HTPQuestion && data.HTPQuestion.length !== 0) {
+
+        obj.QA = {
+            title: "房树人问答",
+            questions: []
+        }
+
+        data.HTPQuestion.forEach(function (type, index) {
+            obj.QA.questions.push({
+                name: type.TypeName + ": 参考问题",
+                list: []
             })
-        })
-    });
+            type.ListQuestion.forEach(function (item) {
+                obj.QA.questions[index].list.push({
+                    q: item.Question,
+                    a: item.Answer
+                })
+            })
+        });
+    }
 
     return obj;
 }
@@ -294,75 +318,83 @@ function htmlRender(obj) {
         pages = [],
         children = [];
 
-    children.push(template.render(header, obj.header, options))
-    children.push(template.render(info, obj.info, options))
-    children.push(template.render(img, obj.img, options))
-    // pages.push(template.render(page, children, options))
-    document.getElementById('app').innerHTML = template.render(page, children, options)
+    function autoPage(box, eid) {
+        var divH = 900,
+            _index = 0,
+            boxChildren = [];
+        if (box.offsetHeight > divH) {
+            Array.prototype.forEach.call(box.children, function (node) {
+                boxChildren.push(domToString(node))
+            })
+            box.innerHTML = ''
+            boxChildren.forEach(function (node, index) {
+                if (box.offsetHeight < divH) {
+                    box.innerHTML += node
+                    _index = index
+                }
+            })
+            var oldArr = boxChildren.slice(0, _index - 1);
+            box.innerHTML = oldArr.join('') // 填入正确的数据
 
-    children = []
-    children.push(template.render(intelligence, obj.intelligence, options))
-    // pages.push(template.render(page, children, options))
-    document.getElementById('app').innerHTML += template.render(page, children, options)
+            var newArr = boxChildren.slice(_index - 1, boxChildren.length);
 
-    children = []
-    children.push(template.render(analysis, obj.analysis, options))
-    // pages.push(template.render(page, children, options))
-    document.getElementById('app').innerHTML += template.render(page, children, options)
+            loop(newArr)
 
-    // document.getElementById('app').innerHTML = pages.join('')
-
-    // 分页--------------------------------------------------------------------开始
-    var divH = 900,
-        _index = 0,
-        boxChildren = [],
-        box = document.querySelector('#analysis .container:last-child');
-
-    if (box.offsetHeight > divH) {
-        Array.prototype.forEach.call(box.children, function (node) {
-            boxChildren.push(domToString(node))
-        })
-        box.innerHTML = ''
-        boxChildren.forEach(function (node, index) {
-            if (box.offsetHeight < divH) {
-                box.innerHTML += node
-                _index = index
-            }
-        })
-        var oldArr = boxChildren.slice(0, _index - 1);
-        box.innerHTML = oldArr.join('') // 填入正确的数据
-
-        var newArr = boxChildren.slice(_index - 1, boxChildren.length);
-
-        loop(newArr)
-
-        function loop(arr) {
-            document.getElementById('app').innerHTML += template.render(page2, arr, options)
-            var p2 = document.querySelector('.page2 .container:last-child');
-            var _index = 0
-            if (p2.offsetHeight > divH) {
-                p2.innerHTML = ''
-                arr.forEach(function (node, index) {
-                    if (p2.offsetHeight < divH) {
-                        p2.innerHTML += node
-                        _index = index
-                    }
-                })
-                p2.innerHTML = arr.slice(0, _index - 1).join('') // 填入正确的数据
-                loop(arr.slice(_index - 1, arr.length));
+            function loop(arr) {
+                document.getElementById('app').innerHTML += template.render(page2, [arr, eid], options)
+                var p2 = document.querySelector('.page2:last-child .container:last-child');
+                var _index = 0
+                if (p2.offsetHeight > divH) {
+                    p2.innerHTML = ''
+                    arr.forEach(function (node, index) {
+                        if (p2.offsetHeight < divH) {
+                            p2.innerHTML += node
+                            _index = index
+                        }
+                    })
+                    p2.innerHTML = arr.slice(0, _index).join('') // 填入正确的数据
+                    loop(arr.slice(_index, arr.length));
+                }
             }
         }
     }
 
-    // 分页--------------------------------------------------------------------结束
+    children.push(template.render(header, obj.header, options))
+    children.push(template.render(info, obj.info, options))
+    children.push(template.render(img, obj.img, options))
+    document.getElementById('app').innerHTML = template.render(page, children, options)
 
+    // obj.intelligence = ''
+    if (obj.intelligence) {
 
-    children = []
-    children.push(template.render(QA, obj.QA, options))
-    document.getElementById('app').innerHTML += template.render(page, children, options)
+        children = []
+        children.push(template.render(intelligence, obj.intelligence, options))
+        document.getElementById('app').innerHTML += template.render(page, children, options)
+    }
+    // obj.analysis = ''
+    if (obj.analysis) {
+        children = []
+        children.push(template.render(analysis, obj.analysis, options))
+        document.getElementById('app').innerHTML += template.render(page, children, options)
 
-    children = []
-    children.push(template.render(summary, obj.summary, options))
-    document.getElementById('app').innerHTML += template.render(page, children, options)
+        autoPage(document.querySelector('#analysis .container:last-child'), "analysis")
+    }
+
+    // obj.QA=""
+    if (obj.QA) {
+        children = []
+        children.push(template.render(QA, obj.QA, options))
+        document.getElementById('app').innerHTML += template.render(page, children, options)
+
+        autoPage(document.querySelector('#QA .container:last-child'), 'QA')
+    }
+
+    // obj.summary=""
+    if (obj.summary) {
+        children = []
+        children.push(template.render(summary, obj.summary, options))
+        document.getElementById('app').innerHTML += template.render(page, children, options)
+        autoPage(document.querySelector('#summary .container:last-child'), 'summary')
+    }
 
 }

@@ -1,17 +1,18 @@
 $green:#64A531;
 .page {
-    height: 1080px;
+    height: 1087px;
     width: 768px;
     color: #000000;
     background-color: #E3F7FF;
-    margin: 0 auto 10px;
+    margin: 0 auto;
+    border-bottom: 0.5px solid black;
     overflow: hidden;
-    background-image: url('img/bg.png');
+    background-image: url('Images/HTPExamReport/bg.png');
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: 100% auto;
     .topbar {
-        height: 10px;
+        height: 15px;
         width: 100%;
         span {
             line-height: 2rem;
@@ -35,19 +36,19 @@ $green:#64A531;
     padding: 36px;
     .top {
         position: relative;
-        width: 200px;
+        width: 240px;
         text-align: center;
-        line-height: 30px; // border: 2px solid $green;
+        line-height: 32px; // border: 2px solid $green;
         background-color: #D8EFE8;
         color: black;
         &::after {
             content: '';
             position: absolute;
-            height: 152%;
+            height: 165%;
             width: 3px;
             left: 0px;
             top: -36%;
-            border-radius: 50% 8%;
+            border-radius: 50% 5%;
             background-color: $green;
         }
         &::before {
@@ -81,37 +82,42 @@ $green:#64A531;
             background-color: $green;
         }
         p {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 24px; // font-weight: bold;
         }
     }
     .box {
         width: 100%;
         height: auto;
         border: 1px solid $green;
-        padding: 1rem;
-        background-color: rgba(241, 251, 255, 0.5);
-        overflow: hidden;
+        padding: 2.2rem 1rem;
+        background-color: rgba(251, 251, 255, 0.5); // overflow: hidden;
         .container {
             width: 100%;
-            height: auto;
-            overflow: hidden;
+            height: auto; // overflow: hidden;
         }
     }
 }
 
 #info.content {
+    >.box {
+        overflow: hidden;
+        .container {
+            overflow: hidden;
+        }
+    }
     .all {
-        text-decoration: underline;
-        font-style: italic;
-        margin-bottom: 2rem;
+        text-decoration: underline; // font-style: italic;
+        margin-bottom: 1rem;
         text-indent: 1rem;
+        color: #64A531;
+        font-size: 20px;
     }
     .half {
         text-indent: 2rem;
         width: 50%;
-        line-height: 2rem;
+        line-height: 32px;
         float: left;
+        font-size: 24px;
     }
 }
 
@@ -122,27 +128,46 @@ $green:#64A531;
         height: 100%;
         >p {
             text-align: center;
-            font-size: 2rem;
+            font-size: 24px;
             color: $green;
             line-height: 5rem;
         }
+        .tip {
+            font-size: 18px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            text-align: right;
+            color: black;
+        }
     }
     .table {
-        width: 100%;
+        width: 100%; // border: 0.5px solid $green;
+        // overflow: hidden;
         border: 1px solid $green;
-        overflow: hidden;
-        >span {
-            display: block;
-            float: left;
-            height: 2rem;
-            width: (100% / 6);
-            border: 1px solid $green;
+        tr {
+            border-style: solid;
+            border-color: $green;
+            border-width: 1px;
+        }
+        th {
+            font-weight: bold;
+        }
+        th,
+        td {
+            // display: block;
+            // float: left;
+            height: 40px;
+            line-height: 40px; // width: (100% / 6);
+            border-right: 1px solid $green;
+            border-left: 1px solid $green;
             text-align: center;
             color: black;
         }
     }
     .comment {
         text-align: justify;
+        text-indent: 2.4rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -175,21 +200,31 @@ $other:#ED676E;
     .type {
         margin-top: 1rem;
         font-size: 1.6rem;
+        position: relative;
+        &::after {
+            content: "";
+            width: 160px;
+            height: 1px;
+            background-color: $green;
+            position: absolute;
+            bottom: -5px;
+            left: -36px;
+        }
     }
     .q {
         line-height: 2rem;
-        text-indent: 2rem;
-        font-size: 1rem;
+        text-indent: 0.1rem;
+        font-size: 1.2rem;
         color: black;
+        margin-top: 24px;
     }
     .a {
         line-height: 2rem;
-        text-indent: 2rem;
-        font-size: 1rem;
-        color: black;
-        >span {
-            font-size: 1.2rem;
-        }
+        text-indent: 1.5rem;
+        font-size: 1.2rem;
+        color: black; // >span {
+        //     font-size: 1.2rem;
+        // }
     }
 }
 
@@ -198,8 +233,10 @@ $other:#ED676E;
     >.box {
         height: 100%;
         padding: 2rem;
-        >p {
-            text-indent: 2rem;
+        p {
+            font-size: 1.2rem;
+            text-indent: 2.4rem;
+            text-align: justify;
         }
     }
 }
@@ -213,28 +250,52 @@ $other:#ED676E;
     .type {
         margin-top: 1rem;
         font-size: 1.6rem;
+        position: relative;
+        &::after {
+            content: "";
+            width: 134px;
+            height: 1px;
+            background-color: $green;
+            position: absolute;
+            bottom: 0;
+            left: -36px;
+        }
     }
     .brief {
-        text-indent: 2rem;
-        margin-left: 2rem;
+        text-indent: 2.4rem;
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        text-align: justify;
     }
     .q {
         line-height: 2rem;
-        text-indent: 2rem;
+        text-indent: 1rem;
         font-size: 1.2rem;
+        margin-top: 24px;
     }
     .a {
         line-height: 2rem;
-        text-indent: 2rem;
+        text-indent: 1.5rem;
         font-size: 1rem;
-        color: black;
+        color: #666666;
     }
 }
 
 .header {
     width: 100%;
-    height: 150px;
+    height: 120px;
     background-color: #D0EBE0;
+    position: relative;
+    img {
+        position: absolute;
+        display: block;
+        left: 50%;
+        top: 50%;
+        width: 480px;
+        height: auto;
+        margin-left: -250px;
+        margin-top: -33px;
+    }
     h2 {
         line-height: 140px;
         text-align: center;

@@ -48,7 +48,7 @@ u {
 html,
 body {
   font-size: 14px;
-  background-color: #fafafa;
+  background-color: black;
   color: #6c6c6c;
   font-family: 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'Helvetica', 'Tahoma', 'Arial', 'SimSun', '宋体', sans-serif;
 }
@@ -96,6 +96,25 @@ html * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+#loading {
+  width: 50px;
+  margin: 0 auto;
+  padding-top: 400px;
+}
+
+.page {
+  position: relative;
+}
+
+.page>.footer {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  font-size: 16px;
+  color: black;
+  z-index: 9;
 }
 
 /*# sourceMappingURL=Reset.css.map */
